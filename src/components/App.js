@@ -1,6 +1,8 @@
 import '../styles/App.scss';
 import callToApi from '../services/api';
 import ls from '../services/localStorage';
+import centralPerk from '../images/central-perk.png';
+import imgTitle from '..//images/quotes.jpeg'
 import { useState, useEffect } from 'react';
 
 function App() {
@@ -44,8 +46,8 @@ function App() {
       .map((eachQuote, i) => {
         return(
           <li className="quote__item" key={i}>
-            <p className="quote__content"> {eachQuote.quote} -
-              <span> {eachQuote.character} </span>
+            <p className="quote__item--content"> {eachQuote.quote} -
+              <span className='quote__item--content-span'> {eachQuote.character} </span>
             </p>
           </li>          
         )
@@ -78,7 +80,10 @@ function App() {
   return (
     <div className="App">
     <header className='header'>
-      <h1 className='header__title'>Friends' Quotes</h1>
+      <div className=' header__div'>
+        <img className='header__div--img' alt="Quotes  from the TV show Friends" title="Quotes from the TV show Friends" src={imgTitle} />
+        <h1 className='header__div--title'>Your own quote finder!</h1>
+      </div>
       <form className='header__form'>
         <label className='header__search1'> 
           Who said what?!
@@ -86,7 +91,7 @@ function App() {
         <input
           className="header__search1--byContent"
           autoComplete="off"
-          placeholder="Look for your favourite quote"
+          placeholder="Look for your favourite quote by content"
           type="search"
           name="search"
           onInput={handleSearchInput}
@@ -94,7 +99,7 @@ function App() {
         />
 
       <label className="header__search2">
-          Look for your favourite quote by character 
+          Look for your favourite quote by character: 
       </label>
         <select
           className="select header__search2--byCharacter"
@@ -114,13 +119,13 @@ function App() {
       </form>
     </header>
 
-    <main>
+    <main className='main'>
     <ul className='listOfQuotes'>
       {renderList()}
     </ul>
 
     <form className="addQuote__form">
-            <h2 className="aadQuote__form--title">Add a new quote!</h2>
+      <h2 className="aadQuote__form--title">Add a new quote!</h2>
         <input
           className="addQuote__form--input"
           placeholder="Add your favourite quote"
@@ -140,14 +145,17 @@ function App() {
           value={newQuote.character}
             />
         <input
-          className="addQuote__btn"
+          className="addQuote__form--btn"
           type="submit"
-          value="Add a new quote"
+          value="Add your quote"
           onClick={handleNewQuote}
         />
           
       </form>      
-    </main>  
+    </main>
+    <footer className='footer'>
+      <img className='footer__img' alt="Central Perk Logo" title="Central Perk Logo" src={centralPerk} />
+    </footer>  
   </div>
   );
 }

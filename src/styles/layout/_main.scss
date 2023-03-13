@@ -1,0 +1,50 @@
+.main {
+    padding: 30px;
+
+    .listOfQuotes {
+        list-style-type: none;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+            .quote__item {
+                border: solid 4px #e7e3fd;
+                border-radius: 8px;
+                box-sizing: border-box;
+                text-align: justify;
+                padding: 4px;
+                width: 300px;
+                    &--content{
+                        font-weight: 600;
+                            &-span{
+                                color: #9685f8;
+                            }
+                    }
+            }
+    }
+    .addQuote__form {
+        margin-top: 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+            &--title{
+                font-size: 24px;
+                color: black
+            }
+            &--input {
+                padding: 5px;
+                border-radius: 8px;
+                background-color: white;
+                color:black;
+                width: 264px;
+            }
+            &--btn {
+                padding: 8px;
+                border-radius: 8px;
+                background-color: black;
+                color: white;
+                font-size: 18px;
+            }
+    }
+}
