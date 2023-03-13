@@ -1,27 +1,58 @@
 import '../styles/App.scss';
-//import quotes from '../data/quotes.json';
-import { useState, useEffect } from 'react';
 import callToApi from '../services/api';
+import ls from '../services/localStorage';
+import { useState, useEffect } from 'react';
 
 function App() {
-
-   const [quotes, setQuotes] = useState([]);
+  const [quotes, setQuotes] = useState(ls.get('storedQuotes', []));
    
-   const [newQuote, setNewQuote] = useState({
+  const [newQuote, setNewQuote] = useState({
     quote: '',
     character: '',
   });
 
-  const [searchInput, setSearchInput] = useState('');
-  const [search, setSearch] = useState('Everybody');  
+  const [searchInput, setSearchInput] = useState(ls.get('search', ''));
 
-  useEffect(() => {
-    callToApi().then((response) => {
-      setQuotes(response);
-    });
+  const [search, setSearch] = useState('Everybody'); 
+
+  useEffect (() => {
+    if (!quotes  || quotes.length === 0) {
+      callToApi().then((response) => {
+        setQuotes(response);
+      });
+    }
   }, []); 
 
-  const handleSearch = (ev) => {
+  useEffect(() => {
+    ls.set('storedQuotes', quotes);
+  }, [quotes]);
+
+  const renderList = () => {
+    return (quotes 
+      .filter((eachQuote) => {
+        return(
+          eachQuote.character.toLowerCase().includes(searchInput.toLowerCase()) ||
+          eachQuote.quote.toLowerCase().includes(searchInput.toLowerCase()));
+      }))
+      .filter((eachQuote) => {
+        if (search === 'Everybody') {
+            return true
+        } else {
+            return eachQuote.character === search    
+        }    
+      })
+      .map((eachQuote, i) => {
+        return(
+          <li className="quote__item" key={i}>
+            <p className="quote__content"> {eachQuote.quote} -
+              <span> {eachQuote.character} </span>
+            </p>
+          </li>          
+        )
+      });
+  }
+  
+    const handleSearch = (ev) => {
     setSearch(ev.target.value);
   };
 
@@ -36,40 +67,14 @@ function App() {
   };
 
   const handleNewQuote = (ev) => {
-  ev.preventDefault();
-  setQuotes([...quotes, newQuote]);
-  setNewQuote({
-  quote:'',
-  character:'',
+    ev.preventDefault();
+    setQuotes([...quotes, newQuote]);
+    setNewQuote({
+    quote:'',
+    character:'',
   })
   }
 
-  const renderList = () => {
-      return quotes
-        .filter ((eachQuote) => {
-        return (
-            eachQuote.character.toLowerCase().includes(searchInput.toLowerCase()) ||
-            eachQuote.quote.toLowerCase().includes(searchInput.toLowerCase()));
-      })
-
-      .filter ((eachQuote) => {
-        if (search === 'Everybody') {
-            return true
-        } else {
-            return eachQuote.character === search    
-        }    
-      })
-      .map((eachQuote, i) => {
-        return (
-          <li className="quote_item" key={i}>
-            <p className="quote__content"> {eachQuote.quote} 
-              <span> {eachQuote.character}
-              </span>
-            </p>
-          </li>          
-    )});
-    }
-   
   return (
     <div className="App">
     <header className='header'>
