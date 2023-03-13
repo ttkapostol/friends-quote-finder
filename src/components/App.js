@@ -1,48 +1,75 @@
 import '../styles/App.scss';
-import quotes from '../data/quotes.json';
-import { useState } from 'react';
+//import quotes from '../data/quotes.json';
+import { useState, useEffect } from 'react';
+import callToApi from '../services/api';
 
 function App() {
 
-   const [data, setData] = useState(quotes);
-   /*const [newQuote, setNewQuote] = useState({
+   const [quotes, setQuotes] = useState([]);
+   
+   const [newQuote, setNewQuote] = useState({
     quote: '',
     character: '',
-  });*/
+  });
 
   const [searchInput, setSearchInput] = useState('');
-  const [search, setSearch] = useState('Todos');  
+  const [search, setSearch] = useState('Everybody');  
 
+  useEffect(() => {
+    callToApi().then((response) => {
+      setQuotes(response);
+    });
+  }, []); 
 
   const handleSearch = (ev) => {
     setSearch(ev.target.value);
   };
+
   const handleSearchInput = (ev) => {
     setSearchInput(ev.target.value);
   };
 
+  const handleInput = (ev) => {
+    const inputValue = ev.target.value;
+    const inputName = ev.target.name;
+  setNewQuote({ ...newQuote, [inputName]: inputValue });  
+  };
 
+  const handleNewQuote = (ev) => {
+  ev.preventDefault();
+  setQuotes([...quotes,newQuote]);
+  setNewQuote({
+  quote:'',
+  character:'',
+  })
+}
 
   const renderList = () => {
-      return data
-        .filter((eachQuote) => {
-          return (
+      return quotes
+        .filter ((eachQuote) => {
+        return (
             eachQuote.character.toLowerCase().includes(searchInput.toLowerCase()) ||
-            eachQuote.quote.toLowerCase().includes(searchInput.toLowerCase())
-  )
-        .filter((eachQuote) => eachQuote.character === search || search === 'Todos')    
-  })
-        .map((eachQuote, i) => (
+            eachQuote.quote.toLowerCase().includes(searchInput.toLowerCase()));
+      })
+
+      .filter ((eachQuote) => {
+        if (search === 'Everybody') {
+            return true
+        } else {
+            return eachQuote.character === search    
+        }    
+      })
+        .map((eachQuote, i) => {
+          return (
           <li className="quote_item" key={i}>
-            <p className="quote__content">
-              <label className="quote__label">The Quote</label>
-              {eachQuote.quote} {eachQuote.character}
+            <p className="quote__content"> {eachQuote.quote} 
+              <span> {eachQuote.character}
+              </span>
             </p>
-          </li>
-        ));
-  };  
- 
- 
+          </li>          
+    )}
+    );
+   
   return (
     <div className="App">
     <header className='header'>
@@ -71,7 +98,7 @@ function App() {
           id="character"
           onChange={handleSearch}
         >
-          <option value="Todos">Todos</option>
+          <option value="Everybody">Everybody</option>
           <option value="Chandler">Chandler</option>
           <option value="Joey">Joey</option>
           <option value="Monica">Monica</option>
@@ -95,17 +122,17 @@ function App() {
           type="text"
           name="quote"
           id="quote"
-          //onInput={handleNewQuote}
-          //value={newQuote.quote}
+          onInput={handleNewQuote}
+          value={newQuote.quote}
           />
         <input
           className="addQuote__form--input"
           type="text"
-          name="lastname"
-          id="lastname"
-          placeholder="Apellidos"
-          //onInput={handleNewQuote}
-          //value={newQuote.character}
+          name="character"
+          id="character"
+          placeholder="Character"
+          onInput={handleNewQuote}
+          value={newQuote.character}
             />
       </form>      
     </main>  
