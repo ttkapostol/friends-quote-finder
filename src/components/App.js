@@ -37,12 +37,12 @@ function App() {
 
   const handleNewQuote = (ev) => {
   ev.preventDefault();
-  setQuotes([...quotes,newQuote]);
+  setQuotes([...quotes, newQuote]);
   setNewQuote({
   quote:'',
   character:'',
   })
-}
+  }
 
   const renderList = () => {
       return quotes
@@ -59,16 +59,16 @@ function App() {
             return eachQuote.character === search    
         }    
       })
-        .map((eachQuote, i) => {
-          return (
+      .map((eachQuote, i) => {
+        return (
           <li className="quote_item" key={i}>
             <p className="quote__content"> {eachQuote.quote} 
               <span> {eachQuote.character}
               </span>
             </p>
           </li>          
-    )}
-    );
+    )});
+    }
    
   return (
     <div className="App">
@@ -111,7 +111,7 @@ function App() {
 
     <main>
     <ul className='listOfQuotes'>
-      {renderList}
+      {renderList()}
     </ul>
 
     <form className="addQuote__form">
@@ -122,7 +122,7 @@ function App() {
           type="text"
           name="quote"
           id="quote"
-          onInput={handleNewQuote}
+          onInput={handleInput}
           value={newQuote.quote}
           />
         <input
@@ -131,9 +131,16 @@ function App() {
           name="character"
           id="character"
           placeholder="Character"
-          onInput={handleNewQuote}
+          onInput={handleInput}
           value={newQuote.character}
             />
+        <input
+          className="addQuote__btn"
+          type="submit"
+          value="Add a new quote"
+          onClick={handleNewQuote}
+        />
+          
       </form>      
     </main>  
   </div>
