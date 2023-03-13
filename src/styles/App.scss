@@ -1,0 +1,9 @@
+@import "variables";
+
+.header{
+    background-color: rgb(171, 247, 247);
+    &__title {
+        font-size: 48px;
+        color: darkblue;
+    }
+}
