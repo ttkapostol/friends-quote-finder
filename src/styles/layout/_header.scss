@@ -1,20 +1,64 @@
 .header {
-    background-color: white;
-    padding: 30px auto;
+    background-color: black;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     gap: 20px;
+    color: white;
+    position: sticky;
+    top: 0;
 
-    &__title {
-        font-size: 48px;
-        text-align: center;
-        color: purple;
-    }
+    &__div {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+            &--img {
+                height: 120px;
+            }
+
+            &--title {
+                font-size: 36px;
+                text-align: center;
+                color: white;
+            }
+    }    
 
     &__form {
         display: flex;
         justify-content: center;
         align-items: center;
         gap: 20px;
-        }
+
+            .header__search1 {
+                color: white;
+                    &--byContent {
+                        padding: 5px;
+                        border-radius: 8px;
+                        background-color: white;
+                        color:black;
+                        width: 264px;
+                    }
+            }
+            .header__search1 {
+                color: white;
+                    &--byContent {
+                        padding: 5px;
+                        border-radius: 8px;
+                        background-color: white;
+                        color:black;
+                        width: 264px;
+                    }
+            }
+            .header__search2 {
+                color: white;
+                    &--byCharacter {
+                        padding: 5px;
+                        border-radius: 8px;
+                        background-color: white;
+                        color: black;
+                        width: 264px;
+                }
+            }
+    }
+   
 }
